@@ -1,16 +1,15 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <ctime>
 #include <fstream>
 #include <cstdlib>
 using namespace std;
 
-bool isCorrectGuess(const string& secretWord, const vector<bool>& guessedLetters) {
+bool CheckGuesses(const string& word, const vector<bool>& letter) {
 
-    for (size_t i = 0; i < secretWord.size(); ++i) {
+    for (size_t i = 0; i < word.size(); ++i) {
 
-        if (!guessedLetters[i]) {
+        if (!letter[i]) {
             return false;
         }
     }
@@ -107,12 +106,15 @@ int main() {
             }
             words.push_back(word); 
         }
+
         inputFile.close(); 
 
         string secretWord = words[rand() % words.size()]; 
         vector<bool> guessedLetters(secretWord.size(), false);
         int attemptsLeft = 6; 
-        cout << "Hangman Game" << endl;
+
+        cout << "-------------------\nHangman Game\n-------------------" << endl;
+        cout << "Guess the name of animal below\n" << endl;
 
         while (attemptsLeft > 0) { 
 
@@ -143,8 +145,10 @@ int main() {
                 attemptsLeft--;
                 cout << "Incorrect guess. Attempts left: " << attemptsLeft << endl;
             }
+
             drawHangman(6 - attemptsLeft);
-            if (isCorrectGuess(secretWord, guessedLetters)) { 
+
+            if (CheckGuesses(secretWord, guessedLetters)) {
 
                 cout << "Congratulations! You have won the game. The word was:" << secretWord << endl;
                 break;
